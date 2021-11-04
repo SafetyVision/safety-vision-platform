@@ -18,4 +18,4 @@ makemigrations:
 build:
 	docker-compose build
 
-setup: build up makemigrations migrate down
+setup: build up migrate down
