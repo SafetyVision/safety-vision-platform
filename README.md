@@ -7,40 +7,26 @@ SafetyVision REST APIs, video streaming APIs, and safety supervisor alerting.
 ## Prerequisites
 Install `docker-compose` using [these instructions](https://docs.docker.com/compose/install/). If you are using Windows/Mac, the easiest way to do this is to install [Docker Desktop](https://www.docker.com/products/docker-desktop).
 
+Install `make` for your shell of choice.
+
 ## Setup
 
 1. Clone this repo and `cd` to this projects root directory.
 
-2. Build the docker images:
+2. Run setup:
 ```
-docker-compose build
-```
-
-3. Start the MySql container:
-```
-docker-compose up db -d
+make setup
 ```
 
-4. Start the Django app:
+3. Run the application:
 ```
-docker-compose up web -d
-```
-
-5. Start a shell in the `web` container to check that the container is running successfully:
-```
-docker-compose exec web /bin/bash
+make up
 ```
 
-6. Run any initial database migrations and exit the container's shell:
-```
-python manage.py migrate
-exit
-```
+4. Visit http://localhost:8000/api/ to verify everything is running.
 
-7. Go to http://localhost:8000/api/ in your browser and you should be go to go!
-
-8. To shutdown the two running containers:
+5. Shut the application down:
 ```
-docker-compose down
+make down
 ```
 
