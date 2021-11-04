@@ -22,7 +22,7 @@ pip3 install virtualenvwrapper-win
 2. Create your virtual environment:
 
 ```
-mkvirtualenv safety-vision-platform -a path\to\safety-vision-platform
+mkvirtualenv safety-vision-platform -a .\
 ```
 
 3. Activate your virtual environment:
@@ -34,17 +34,17 @@ mkvirtualenv safety-vision-platform -a path\to\safety-vision-platform
 4. Install Django:
 
 ```
-pip3 install django~=3.1
+pip3 install django==3.2.9
 ```
 
-Check that your installation was successful with this command that should produce a 3.x.x version number:
+Check that your installation was successful with this command that should produce a 3.2.9 version number:
 ```
 python -m django --version
 ```
 
 5. Install Django REST framework:
 ```
-pip3 install djangorestframework
+pip3 install djangorestframework==3.12.4
 ```
 
 6. Run migrations:
