@@ -5,7 +5,7 @@
 SafetyVision REST APIs, video streaming APIs, and safety supervisor alerting.
 
 ## Prerequisites
-Run `python -V` and make sure you are running Python3.
+Run `python -V` and make sure you are running Python3. We'll be using `pip3` to setup our Django development environment.
 
 ## Setup
 
