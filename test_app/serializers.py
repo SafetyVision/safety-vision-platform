@@ -1,10 +1,11 @@
 from rest_framework import serializers
-from .models import Test
+from .models import TestModel
 
-class TestSerializer(serializers.ModelSerializer):
+
+class TestModelSerializer(serializers.ModelSerializer):
     class Meta:
         fields = (
             'id',
             'description',
         )
-        model = Test
+        model = TestModel
