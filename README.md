@@ -13,14 +13,15 @@ Install `make` for your shell of choice.
 
 1. Clone this repo and `cd` to this projects root directory.
 
-2. Run setup:
+2. Build and run the docker images:
 ```
-make setup
+make build
+make up
 ```
 
-3. Run the application:
+3. Run the database migrations (if you have issues running this just try again in a few seconds):
 ```
-make up
+make migrate
 ```
 
 4. Visit http://localhost:8000/api/ to verify everything is running.

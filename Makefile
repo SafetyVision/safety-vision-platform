@@ -17,5 +17,3 @@ makemigrations:
 
 build:
 	docker-compose build
-
-setup: build up migrate down
