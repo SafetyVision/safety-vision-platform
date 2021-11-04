@@ -5,57 +5,42 @@
 SafetyVision REST APIs, video streaming APIs, and safety supervisor alerting.
 
 ## Prerequisites
-Run `python -V` and make sure you are running Python3. We'll be using `pip3` to setup our Django development environment.
+Install `docker-compose` using [these instructions](https://docs.docker.com/compose/install/). If you are using Windows/Mac, the easiest way to do this is to install [Docker Desktop](https://www.docker.com/products/docker-desktop).
 
 ## Setup
 
-Clone this repo.
+1. Clone this repo and `cd` to this projects root directory.
 
-Follow the [MDN steps](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/development_environment) to setup a Django development environment for your OS.
-
-1. For Windows, install `virutalenv`:
-
+2. Build the docker images:
 ```
-pip3 install virtualenvwrapper-win
+docker-compose build
 ```
 
-2. Create your virtual environment:
-
+3. Start the MySql container:
 ```
-mkvirtualenv safety-vision-platform -a .\
-```
-
-3. Activate your virtual environment:
-
-```
-~\Envs\safety-vision-platform\Scripts\activate.ps1
+docker-compose up db -d
 ```
 
-4. Install Django:
-
+4. Start the Django app:
 ```
-pip3 install django==3.2.9
-```
-
-Check that your installation was successful with this command that should produce a 3.2.9 version number:
-```
-python -m django --version
+docker-compose up web -d
 ```
 
-5. Install Django REST framework:
+5. Start a shell in the `web` container to check that the container is running successfully:
 ```
-pip3 install djangorestframework==3.12.4
+docker-compose exec web /bin/bash
 ```
 
-6. Run migrations:
-
+6. Run any initial database migrations and exit the container's shell:
 ```
 python manage.py migrate
+exit
 ```
 
-7. Run the server and visit http://127.0.0.1:8000/api to test that the application is running.
+7. Go to http://localhost:8000/api/ in your browser and you should be go to go!
+
+8. To shutdown the two running containers:
 ```
-python manage.py runserver
+docker-compose down
 ```
 
-You should be up and running!
