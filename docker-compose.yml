@@ -13,13 +13,14 @@ services:
     volumes:
       - db:/var/lib/mysql
   web:
-    build: .
+    image: safety-vision-platform_web-local
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
-      - .:/code
+      - app:/code
     ports:
-      - "8000:8000"
+      - "80:8000"
     depends_on:
       - db
 volumes:
   db:
+  app:
