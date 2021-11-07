@@ -5,7 +5,7 @@ services:
     image: mysql:5.7
     restart: always
     ports:
-      - '3306:3306'
+      - 3306:3306
     environment:
       MYSQL_DATABASE: 'safety-vision-platform-db'
       MYSQL_ROOT_USER: 'root'
@@ -16,11 +16,10 @@ services:
     image: safety-vision-platform_web-local
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
-      - app:/code
+      - .:/code
     ports:
-      - "80:8000"
+      - 8000:8000
     depends_on:
       - db
 volumes:
   db:
-  app:
