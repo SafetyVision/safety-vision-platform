@@ -32,6 +32,7 @@ ALLOWED_HOSTS = ['web', 'localhost']
 
 INSTALLED_APPS = [
     'test_app',
+    'authentication',
     'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -131,7 +132,10 @@ STATIC_URL = '/api/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication'
+    ],
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny',
-    ]
+        'rest_framework.permissions.IsAuthenticated'
+    ,]
 }
