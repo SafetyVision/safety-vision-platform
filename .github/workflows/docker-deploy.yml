@@ -6,7 +6,7 @@ on:
 
 jobs:
 
-  build:
+  deploy:
 
     runs-on: ubuntu-latest
 
@@ -20,3 +20,16 @@ jobs:
       run: docker login --username safetyvision --password $DOCKER_PASSWORD
     - name: Push Docker image
       run: docker push safetyvision/safety-vision-platform:latest
+    - name: Deploy via SSH
+      env:
+        PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+      run: |
+        mkdir -p ~/.ssh
+        echo "$PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
+        cat ~/.ssh/id_rsa
+        chmod 700 ~/.ssh/id_rsa
+        eval "$(ssh-agent -s)"
+        ssh-add ~/.ssh/id_rsa
+        ssh-keyscan -H 'github.com' >> ~/.ssh/known_hosts
+        chmod +x ./deploy.sh
+        bash ./deploy.sh
