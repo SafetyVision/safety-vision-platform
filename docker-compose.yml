@@ -15,6 +15,14 @@ services:
   web:
     image: safety-vision-platform_web-local
     command: python manage.py runserver 0.0.0.0:8000
+    environment:
+      - SECRET_KEY=django-insecure-b4^apzjzd^*j3e%mk%6g+01c=%wro97mdcesysh)l9j*h6#3tf
+      - DEBUG=True
+      - ALLOWED_HOSTS=localhost
+      - DATABASE_HOST=db
+      - DATABASE_USER=root
+      - DATABASE_PASSWORD=password
+      - DATABASE_NAME=safety-vision-platform-db
     volumes:
       - .:/code
     ports:

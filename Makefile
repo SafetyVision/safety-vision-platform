@@ -5,7 +5,7 @@ setup:
 	docker-compose build
 
 up:
-	docker-compose up db -d
+	docker-compose up -d db
 	docker-compose up -d
 
 webbash:
