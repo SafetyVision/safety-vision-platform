@@ -11,7 +11,7 @@ make build
 ## Run the app
 Setup:
 ```
-make setup
+make build
 ```
 
 Run:

@@ -1,9 +1,6 @@
 build:
 	docker build -t safety-vision-platform_web-local:latest .
 
-setup:
-	docker-compose build
-
 up:
 	docker-compose up -d db
 	docker-compose up -d
