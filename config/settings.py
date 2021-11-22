@@ -33,8 +33,10 @@ ALLOWED_HOSTS = [os.environ['ALLOWED_HOSTS']]
 
 INSTALLED_APPS = [
     'test_app',
+    'accounts',
     'authentication',
     'rest_framework',
+    'profiles',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
