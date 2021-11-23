@@ -32,7 +32,6 @@ ALLOWED_HOSTS = [os.environ['ALLOWED_HOSTS']]
 # Application definition
 
 INSTALLED_APPS = [
-    'test_app',
     'accounts',
     'authentication',
     'users',
