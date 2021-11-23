@@ -25,4 +25,4 @@ class UserSerializer(ModelSerializer):
         if password:
             instance.set_password(password)
             instance.save()
-        return instance
+        return ExtendedUser.objects.get(id=instance.id)
