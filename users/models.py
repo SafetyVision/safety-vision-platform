@@ -10,3 +10,4 @@ class ExtendedUser(AbstractUser):
         blank=True,
         null=True
     )
+    email = models.EmailField(unique=True)
