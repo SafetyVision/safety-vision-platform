@@ -33,7 +33,9 @@ ALLOWED_HOSTS = [os.environ['ALLOWED_HOSTS']]
 
 INSTALLED_APPS = [
     'test_app',
+    'accounts',
     'authentication',
+    'users',
     'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -89,6 +91,9 @@ DATABASES = {
 }
 
 
+AUTH_USER_MODEL = 'users.ExtendedUser'
+
+
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
@@ -137,7 +142,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication'
     ],
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated'
+        'rest_framework.permissions.AllowAny'
     ],
 }
 

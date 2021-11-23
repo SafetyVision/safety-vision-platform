@@ -7,7 +7,6 @@ from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.http import JsonResponse
 from rest_framework.views import APIView
-from rest_framework.authentication import SessionAuthentication
 from rest_framework.response import Response
 
 @ensure_csrf_cookie
@@ -41,6 +40,5 @@ def login_view(request):
     )
 
 class CheckAuth(APIView):
-    authentication_classes = [SessionAuthentication]
     def get(self, request):
         return Response({'detail': 'You\'re Authenticated'})
