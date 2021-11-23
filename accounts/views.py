@@ -8,7 +8,7 @@ class CreateAccountAPIView(CreateAPIView):
     authentication_classes = []
 
 class ListAccountAPIView(ListAPIView):
-    serializer_class = serializers.CreateAccountSerializer
+    serializer_class = serializers.ListAccountSerializer
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):

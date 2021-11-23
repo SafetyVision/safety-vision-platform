@@ -29,3 +29,10 @@ class GetUpdateDeleteAccountSerializer(serializers.ModelSerializer):
     class Meta:
         model = Account
         fields = ['id', 'account_name', 'login_identifier']
+
+class ListAccountSerializer(serializers.ModelSerializer):
+    users = UserSerializer(many=True)
+
+    class Meta:
+        model = Account
+        fields = ['id', 'account_name', 'login_identifier', 'users']
