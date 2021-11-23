@@ -33,7 +33,9 @@ ALLOWED_HOSTS = [os.environ['ALLOWED_HOSTS']]
 
 INSTALLED_APPS = [
     'test_app',
+    'accounts',
     'authentication',
+    'users',
     'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -87,6 +89,9 @@ DATABASES = {
         'PORT': 3306,
     }
 }
+
+
+AUTH_USER_MODEL = 'users.ExtendedUser'
 
 
 # Password validation
