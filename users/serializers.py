@@ -26,3 +26,8 @@ class UserSerializer(ModelSerializer):
             instance.set_password(password)
             instance.save()
         return ExtendedUser.objects.get(id=instance.id)
+
+class UserMeSerializer(ModelSerializer):
+        class Meta:
+            model = ExtendedUser
+            fields = ('id', 'first_name', 'last_name', 'email', 'account')
