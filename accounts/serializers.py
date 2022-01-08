@@ -19,7 +19,7 @@ class CreateAccountSerializer(serializers.ModelSerializer):
         user = validated_data.pop('users', None)[0]
         account = Account.objects.create(**validated_data)
         password = user.pop('password')
-        user = ExtendedUser.objects.create(**user, account=account)
+        user = ExtendedUser.objects.create(**user, account=account, username=user['email'])
         user.set_password(password)
         user.save()
 
