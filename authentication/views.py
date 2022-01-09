@@ -1,6 +1,3 @@
-"""
-SOURCE - https://yoongkang.com/blog/cookie-based-authentication-spa-django/
-"""
 import json
 from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.http import require_POST
@@ -8,6 +5,7 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 from django.http import JsonResponse
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 
 @ensure_csrf_cookie
 def set_csrf_token(request):
@@ -45,5 +43,6 @@ def logout_view(request):
     return JsonResponse({"detail": "Success"})
 
 class CheckAuth(APIView):
+    permission_classes = [IsAuthenticated]
     def get(self, request):
         return Response({'detail': 'You\'re Authenticated'})
