@@ -30,7 +30,6 @@ ALLOWED_HOSTS = [os.environ['ALLOWED_HOSTS']]
 
 CREATE_INFRACTION_EVENT_KEY = os.environ['CREATE_INFRACTION_EVENT_KEY']
 
-
 # Application definition
 
 INSTALLED_APPS = [
