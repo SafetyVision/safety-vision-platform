@@ -23,6 +23,7 @@ services:
       - DATABASE_USER=root
       - DATABASE_PASSWORD=password
       - DATABASE_NAME=safety-vision-platform-db
+      - CREATE_INFRACTION_EVENT_KEY=token
     volumes:
       - .:/code
     ports:

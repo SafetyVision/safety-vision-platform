@@ -28,6 +28,8 @@ DEBUG = bool(os.environ['DEBUG'])
 
 ALLOWED_HOSTS = [os.environ['ALLOWED_HOSTS']]
 
+CREATE_INFRACTION_EVENT_KEY = os.environ['CREATE_INFRACTION_EVENT_KEY']
+
 
 # Application definition
 
@@ -37,6 +39,7 @@ INSTALLED_APPS = [
     'users',
     'rest_framework',
     'video_clips',
+    'infraction_events',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
