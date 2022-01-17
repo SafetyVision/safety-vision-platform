@@ -28,6 +28,7 @@ DEBUG = bool(os.environ['DEBUG'])
 
 ALLOWED_HOSTS = [os.environ['ALLOWED_HOSTS']]
 
+CREATE_INFRACTION_EVENT_KEY = os.environ['CREATE_INFRACTION_EVENT_KEY']
 
 # Application definition
 
@@ -37,6 +38,7 @@ INSTALLED_APPS = [
     'users',
     'rest_framework',
     'video_clips',
+    'infraction_events',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -148,6 +150,8 @@ REST_FRAMEWORK = {
     ],
 }
 
+AWS_S3_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
+AWS_S3_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
 DEFAULT_FILE_STORAGE = 'config.s3.MediaRootS3BotoStorage'
 AWS_STORAGE_BUCKET_NAME = 'safety-vision-static-files'
 AWS_S3_SIGNATURE_VERSION = 's3v4'
@@ -155,8 +159,6 @@ AWS_QUERYSTRING_EXPIRE = 120
 
 # Dev settings
 if DEBUG:
-    AWS_S3_ACCESS_KEY_ID = 'test'
-    AWS_S3_SECRET_ACCESS_KEY = 'test'
     AWS_S3_ENDPOINT_URL = 'http://host.docker.internal:4566'
     AWS_S3_CUSTOM_DOMAIN = 'safety-vision-static-files.s3.localhost:4566'
     AWS_S3_USE_SSL = False
@@ -164,5 +166,3 @@ if DEBUG:
 # Prod settings
 if not DEBUG:
     STATICFILES_STORAGE = 'config.s3.StaticRootS3BotoStorage'
-    AWS_S3_ACCESS_KEY_ID = os.environ['AWS_S3_ACCESS_KEY_ID']
-    AWS_S3_SECRET_ACCESS_KEY = os.environ['AWS_S3_SECRET_ACCESS_KEY']
