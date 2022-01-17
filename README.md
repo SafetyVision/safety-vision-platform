@@ -14,6 +14,8 @@ Setup:
 make build
 ```
 
+Set the `AWS_ACCESS_KEY_ID` and `AWS_SECRECT_ACCESS_KEY` environment variables.
+
 Run:
 ```
 make up

@@ -1,10 +1,11 @@
-import string
-import random
+import boto3
+from botocore.config import Config
+from datetime import timedelta
 from rest_framework.serializers import ModelSerializer
 from .models import InfractionEvent
 from video_clips.serializers import VideoClipSerializer
 from video_clips.models import VideoClip
-from django.core.files.base import File
+from django.core.files.base import ContentFile
 
 class InfractionEventSerializer(ModelSerializer):
   infraction_video = VideoClipSerializer(read_only=True)
@@ -19,10 +20,42 @@ class InfractionEventCreateSerializer(ModelSerializer):
     fields = ['account', 'infraction_date_time']
 
   def create(self, validated_data):
+    client = boto3.client(
+      'kinesisvideo',
+      config=Config(region_name='us-east-1'),
+    )
+    endpoint_response = client.get_data_endpoint(
+      StreamARN='arn:aws:kinesisvideo:us-east-1:368242569276:stream/SafetyVision-VS-1/1642016630351',
+      APIName='GET_CLIP'
+    )
+    endpoint_url = endpoint_response['DataEndpoint']
+
+    client = boto3.client(
+      'kinesis-video-archived-media',
+      endpoint_url=endpoint_url,
+      config=Config(region_name='us-east-1')
+    )
+    clip_response = client.get_clip(
+      StreamARN='arn:aws:kinesisvideo:us-east-1:368242569276:stream/SafetyVision-VS-1/1642016630351',
+      ClipFragmentSelector={
+        'FragmentSelectorType': 'SERVER_TIMESTAMP',
+        'TimestampRange': {
+          'StartTimestamp': validated_data['infraction_date_time'] - timedelta(seconds=5),
+          'EndTimestamp': validated_data['infraction_date_time'] + timedelta(seconds=5),
+        }
+      }
+    )
+
+    clip_file = ContentFile(b'')
+    for chunk in clip_response['Payload'].iter_chunks():
+      clip_file.write(chunk)
+
+    print(clip_file.size)
+
     infraction_video = VideoClip()
-    # TODO download the file from Kinesis
-    file = open('/code/media/test.mp4', 'rb')
-    infraction_video.file.save('blah.mp4', File(file))
+    infraction_video.save()
+    file_name = str(infraction_video.id) + '_' + str(validated_data['infraction_date_time']) + '.mp4'
+    infraction_video.file.save(file_name, clip_file)
     infraction_video.save()
 
     return InfractionEvent.objects.create(
