@@ -54,7 +54,6 @@ class InfractionEventCreateSerializer(ModelSerializer):
     infraction_video.save()
     file_name = str(infraction_video.id) + '_' + str(validated_data['infraction_date_time']) + '.mp4'
     infraction_video.file.save(file_name, clip_file)
-    infraction_video.save()
 
     return InfractionEvent.objects.create(
       account=validated_data['account'],
