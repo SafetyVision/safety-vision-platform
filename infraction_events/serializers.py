@@ -50,8 +50,6 @@ class InfractionEventCreateSerializer(ModelSerializer):
     for chunk in clip_response['Payload'].iter_chunks():
       clip_file.write(chunk)
 
-    print(clip_file.size)
-
     infraction_video = VideoClip()
     infraction_video.save()
     file_name = str(infraction_video.id) + '_' + str(validated_data['infraction_date_time']) + '.mp4'
