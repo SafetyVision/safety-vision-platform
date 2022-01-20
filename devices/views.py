@@ -21,3 +21,4 @@ class GetUpdateDeleteDeviceAPIView(RetrieveUpdateDestroyAPIView):
 
     # def get_queryset(self):
     #     return Device.objects.filter(id=self.request.user.Device.id)
+    

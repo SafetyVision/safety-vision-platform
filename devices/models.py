@@ -13,10 +13,9 @@ class Device(models.Model):
             'kinesisvideo',
             config=Config(region_name='us-east-1'),
         )
-        print("----------------------------------------------------------------"+self.stream_name)
+
         endpoint_response = client.get_data_endpoint(
             StreamName=self.stream_name,
-            # StreamARN='arn:aws:kinesisvideo:us-east-1:368242569276:stream/SafetyVision-VS-1/1642016630351',
             APIName='GET_HLS_STREAMING_SESSION_URL'
         )
         endpoint_url = endpoint_response['DataEndpoint']
@@ -28,7 +27,6 @@ class Device(models.Model):
         )
         stream_response = client.get_hls_streaming_session_url(
             StreamName=self.stream_name,
-            # StreamARN='arn:aws:kinesisvideo:us-east-1:368242569276:stream/SafetyVision-VS-1/1642016630351',
             PlaybackMode='LIVE',
             ContainerFormat='FRAGMENTED_MP4',
             DiscontinuityMode='ALWAYS',
