@@ -25,15 +25,18 @@ class Device(models.Model):
             endpoint_url=endpoint_url,
             config=Config(region_name='us-east-1')
         )
-        stream_response = client.get_hls_streaming_session_url(
-            StreamName=self.stream_name,
-            PlaybackMode='LIVE',
-            ContainerFormat='FRAGMENTED_MP4',
-            DiscontinuityMode='ALWAYS',
-            DisplayFragmentTimestamp='NEVER',
-            Expires=43100,
-            MaxMediaPlaylistFragmentResults=3
-        )
+        try:
+            stream_response = client.get_hls_streaming_session_url(
+                StreamName=self.stream_name,
+                PlaybackMode='LIVE',
+                ContainerFormat='FRAGMENTED_MP4',
+                DiscontinuityMode='ALWAYS',
+                DisplayFragmentTimestamp='NEVER',
+                Expires=43100,
+                MaxMediaPlaylistFragmentResults=3
+            )
+        except:
+            return None
 
         return stream_response['HLSStreamingSessionURL']
 
