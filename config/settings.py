@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'video_clips',
     'infraction_events',
+    'devices',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
