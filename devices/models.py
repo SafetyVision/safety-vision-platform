@@ -9,23 +9,24 @@ class Device(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def getStreamUrl(self):
-        client = boto3.client(
-            'kinesisvideo',
-            config=Config(region_name='us-east-1'),
-        )
-
-        endpoint_response = client.get_data_endpoint(
-            StreamName=self.stream_name,
-            APIName='GET_HLS_STREAMING_SESSION_URL'
-        )
-        endpoint_url = endpoint_response['DataEndpoint']
-
-        client = boto3.client(
-            'kinesis-video-archived-media',
-            endpoint_url=endpoint_url,
-            config=Config(region_name='us-east-1')
-        )
         try:
+            client = boto3.client(
+                'kinesisvideo',
+                config=Config(region_name='us-east-1'),
+            )
+
+            endpoint_response = client.get_data_endpoint(
+                StreamName=self.stream_name,
+                APIName='GET_HLS_STREAMING_SESSION_URL'
+            )
+            endpoint_url = endpoint_response['DataEndpoint']
+
+            client = boto3.client(
+                'kinesis-video-archived-media',
+                endpoint_url=endpoint_url,
+                config=Config(region_name='us-east-1')
+            )
+        
             stream_response = client.get_hls_streaming_session_url(
                 StreamName=self.stream_name,
                 PlaybackMode='LIVE',
