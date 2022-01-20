@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'accounts',
     'authentication',
     'users',
+    'infraction_types',
     'rest_framework',
     'video_clips',
     'infraction_events',
