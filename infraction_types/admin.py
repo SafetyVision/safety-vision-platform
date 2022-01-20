@@ -1,3 +1,4 @@
 from django.contrib import admin
+from infraction_types.models import InfractionType
 
-# Register your models here.
+admin.site.register(InfractionType)
