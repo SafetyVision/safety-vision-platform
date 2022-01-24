@@ -1,4 +1,3 @@
-from enum import unique
 from django.db import models
 import boto3
 from botocore.config import Config
@@ -28,7 +27,7 @@ class Device(models.Model):
                 endpoint_url=endpoint_url,
                 config=Config(region_name='us-east-1')
             )
-        
+
             stream_response = client.get_hls_streaming_session_url(
                 StreamARN=self.stream_arn,
                 PlaybackMode='LIVE',

@@ -22,7 +22,7 @@ class GetUpdateDeleteDeviceAPIView(RetrieveUpdateDestroyAPIView):
 
     def perform_destroy(self, instance):
         region = 'us-east-1'
-        
+
         try:
             client = boto3.client(
                 'kinesisvideo',
@@ -30,10 +30,9 @@ class GetUpdateDeleteDeviceAPIView(RetrieveUpdateDestroyAPIView):
             )
 
             client.delete_stream(
-                    StreamARN=instance.stream_arn
-                )
+                StreamARN=instance.stream_arn
+            )
         except:
             raise serializers.ValidationError("Failed to delete device stream")
 
         instance.delete()
-    
