@@ -1,10 +1,12 @@
+from enum import unique
 from django.db import models
 import boto3
 from botocore.config import Config
 
 class Device(models.Model):
+    serial_number = models.CharField(max_length=1000, unique=True, default='')
     location = models.CharField(max_length=1000)
-    stream_name = models.CharField(max_length=1000)
+    stream_arn = models.CharField(max_length=1000)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -16,7 +18,7 @@ class Device(models.Model):
             )
 
             endpoint_response = client.get_data_endpoint(
-                StreamName=self.stream_name,
+                StreamARN=self.stream_arn,
                 APIName='GET_HLS_STREAMING_SESSION_URL'
             )
             endpoint_url = endpoint_response['DataEndpoint']
@@ -28,7 +30,7 @@ class Device(models.Model):
             )
         
             stream_response = client.get_hls_streaming_session_url(
-                StreamName=self.stream_name,
+                StreamARN=self.stream_arn,
                 PlaybackMode='LIVE',
                 ContainerFormat='FRAGMENTED_MP4',
                 DiscontinuityMode='ALWAYS',
