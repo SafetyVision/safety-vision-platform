@@ -24,6 +24,9 @@ class CreateInfractionTypeSerializer(serializers.ModelSerializer):
             'location': infraction_type.device.id,
         }
 
-        requests.post(url=url, json=json)
+        try:
+            requests.post(url=url, json=json, timeout=0.01)
+        except:
+            pass
 
         return infraction_type
