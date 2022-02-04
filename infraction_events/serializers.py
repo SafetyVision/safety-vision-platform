@@ -1,5 +1,4 @@
 import boto3
-from botocore.config import Config
 from datetime import timedelta
 from rest_framework.serializers import ModelSerializer
 from .models import InfractionEvent
@@ -22,10 +21,10 @@ class InfractionEventCreateSerializer(ModelSerializer):
   def create(self, validated_data):
     client = boto3.client(
       'kinesisvideo',
-      config=Config(region_name='us-east-1'),
+      region_name='us-east-1',
     )
     endpoint_response = client.get_data_endpoint(
-      StreamARN='arn:aws:kinesisvideo:us-east-1:368242569276:stream/SafetyVision-VS-1/1642016630351',
+      StreamName='SafetyVision-VS-2',
       APIName='GET_CLIP'
     )
     endpoint_url = endpoint_response['DataEndpoint']
@@ -33,10 +32,10 @@ class InfractionEventCreateSerializer(ModelSerializer):
     client = boto3.client(
       'kinesis-video-archived-media',
       endpoint_url=endpoint_url,
-      config=Config(region_name='us-east-1')
+      region_name='us-east-1',
     )
     clip_response = client.get_clip(
-      StreamARN='arn:aws:kinesisvideo:us-east-1:368242569276:stream/SafetyVision-VS-1/1642016630351',
+      StreamName='SafetyVision-VS-2',
       ClipFragmentSelector={
         'FragmentSelectorType': 'SERVER_TIMESTAMP',
         'TimestampRange': {
