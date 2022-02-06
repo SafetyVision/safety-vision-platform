@@ -3,9 +3,9 @@ name: Build Docker Image
 on: pull_request
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag safetyvision/safety-vision-platform:latest
+    - name: Run tests
+      run: make test-ci
