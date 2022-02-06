@@ -43,7 +43,7 @@ class UserTestCase(APITestCase):
     response = self.client.post(url, user, format='json')
 
     self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-    self.assertEqual(ExtendedUser.objects.count(), current_users_count + 1)
+    self.assertEqual(ExtendedUser.objects.count(), current_users_count + 2)
     self.assertEqual(response.data['first_name'], user['first_name'])
     self.assertEqual(response.data['last_name'], user['last_name'])
     self.assertEqual(response.data['email'], user['email'])
