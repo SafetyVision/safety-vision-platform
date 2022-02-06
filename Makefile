@@ -20,3 +20,8 @@ makemigrations:
 test: up
 	docker-compose exec web python manage.py test
 	docker-compose down
+
+test-ci:
+	docker-compose -f docker-compose.test.yml up -d db
+	docker-compose -f docker-compose.test.yml run web
+	docker-compose -f docker-compose.test.yml down
