@@ -1,0 +1,37 @@
+version: "3.9"
+
+services:
+  db:
+    image: mysql:5.7
+    restart: always
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_DATABASE: 'safety-vision-platform-db'
+      MYSQL_ROOT_USER: 'root'
+      MYSQL_ROOT_PASSWORD: 'password'
+    volumes:
+      - db:/var/lib/mysql
+  web:
+    build:
+      context: .
+    command: python manage.py test
+    environment:
+      - SECRET_KEY=django-insecure-b4^apzjzd^*j3e%mk%6g+01c=%wro97mdcesysh)l9j*h6#3tf
+      - DEBUG=True
+      - ALLOWED_HOSTS=localhost
+      - DATABASE_HOST=db
+      - DATABASE_USER=root
+      - DATABASE_PASSWORD=password
+      - DATABASE_NAME=safety-vision-platform-db
+      - CREATE_INFRACTION_EVENT_KEY=token
+      - AWS_ACCESS_KEY_ID=token
+      - AWS_SECRET_ACCESS_KEY=token
+    volumes:
+      - .:/code
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
+volumes:
+  db:
