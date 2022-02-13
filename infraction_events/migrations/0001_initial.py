@@ -23,6 +23,7 @@ class Migration(migrations.Migration):
                 ('updated_at', models.DateTimeField(auto_now=True)),
                 ('account', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='accounts.account')),
                 ('infraction_video', models.OneToOneField(null=True, on_delete=django.db.models.deletion.SET_NULL, to='video_clips.videoclip')),
+                ('location', models.CharField(default=None, max_length=1000)),
             ],
         ),
     ]
