@@ -10,8 +10,6 @@ services:
       MYSQL_DATABASE: 'safety-vision-platform-db'
       MYSQL_ROOT_USER: 'root'
       MYSQL_ROOT_PASSWORD: 'password'
-    volumes:
-      - db:/var/lib/mysql
   web:
     build:
       context: .
