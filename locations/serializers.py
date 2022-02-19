@@ -2,8 +2,9 @@ from rest_framework import serializers
 from .models import Location
 from devices.serializers import DeviceSerializer
 
-class CreateUpdateLocationSerializer(serializers.ModelSerializer):
+class LocationSerializer(serializers.ModelSerializer):
     devices = DeviceSerializer(many=True, read_only=True)
+
     class Meta:
         model = Location
         fields = ['id', 'description', 'devices']
@@ -15,10 +16,3 @@ class CreateUpdateLocationSerializer(serializers.ModelSerializer):
             **validated_data,
             account=account,
         )
-
-class ListGetLocationSerializer(serializers.ModelSerializer):
-    devices = DeviceSerializer(many=True, read_only=True)
-
-    class Meta:
-        model = Location
-        fields = ['id', 'description', 'devices']

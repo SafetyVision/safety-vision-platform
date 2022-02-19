@@ -10,25 +10,17 @@ from botocore.config import Config
 
 class ListCreateLocationAPIView(ListCreateAPIView):
     permission_classes = [IsAuthenticated]
+    serializer_class = serializers.LocationSerializer
 
     def get_queryset(self):
         return Location.objects.filter(account=self.request.user.account)
-
-    def get_serializer_class(self):
-        if self.request.method == 'POST':
-            return serializers.CreateUpdateLocationSerializer
-        return serializers.ListGetLocationSerializer
 
 class RetrieveUpdateDeleteLocationAPIView(RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticated]
+    serializer_class = serializers.LocationSerializer
 
     def get_queryset(self):
         return Location.objects.filter(account=self.request.user.account)
-
-    def get_serializer_class(self):
-        if self.request.method == 'GET':
-            return serializers.ListGetLocationSerializer
-        return serializers.CreateUpdateLocationSerializer
 
     def perform_destroy(self, instance):
         devices = Device.objects.filter(location=instance)
