@@ -50,4 +50,6 @@ class Device(models.Model):
         return stream_response['HLSStreamingSessionURL']
 
     def __str__(self):
-        return self.description
+        if self.description:
+            return self.description
+        return f'Unassigned device with serial number: {self.serial_number}'
