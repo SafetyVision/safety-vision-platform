@@ -1,11 +1,18 @@
 from django.db import models
 import boto3
 from botocore.config import Config
+from locations.models import Location
 
 class Device(models.Model):
     serial_number = models.CharField(max_length=1000, unique=True, default='')
-    location = models.CharField(max_length=1000)
-    stream_arn = models.CharField(max_length=1000)
+    location = models.ForeignKey(
+        Location,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name='devices',
+    )
+    description = models.CharField(max_length=255, default='')
+    stream_arn = models.CharField(max_length=1000, default='')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -43,5 +50,4 @@ class Device(models.Model):
         return stream_response['HLSStreamingSessionURL']
 
     def __str__(self):
-        return self.location
-# Create your models here.
+        return self.description

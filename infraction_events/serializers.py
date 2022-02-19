@@ -11,12 +11,12 @@ class InfractionEventSerializer(ModelSerializer):
 
   class Meta:
     model = InfractionEvent
-    fields = ['id', 'account', 'infraction_video', 'infraction_date_time']
+    fields = ['id', 'infraction_type', 'infraction_video', 'infraction_date_time']
 
 class InfractionEventCreateSerializer(ModelSerializer):
   class Meta:
     model = InfractionEvent
-    fields = ['account', 'infraction_date_time']
+    fields = ['infraction_type', 'infraction_date_time']
 
   def create(self, validated_data):
     client = boto3.client(
@@ -55,7 +55,7 @@ class InfractionEventCreateSerializer(ModelSerializer):
     infraction_video.file.save(file_name, clip_file)
 
     return InfractionEvent.objects.create(
-      account=validated_data['account'],
+      infraction_type=validated_data['infraction_type'],
       infraction_date_time=validated_data['infraction_date_time'],
       infraction_video=infraction_video,
     )

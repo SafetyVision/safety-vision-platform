@@ -1,21 +1,25 @@
 from rest_framework import serializers
 from .models import Device
+from locations.models import Location
 import boto3
 from botocore.config import Config
 
-class CreateDeviceSerializer(serializers.ModelSerializer):
+
+class DeviceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Device
-        fields = ['serial_number', 'location']
+        fields = ['id', 'serial_number', 'location', 'description']
+        read_only_fields = ['id', 'serial_number']
 
-    def create(self, validated_data):
+    def update(self, instance, validated_data):
         region = 'us-east-1'
-        stream_name='SafetyVision-VS-'+validated_data['serial_number']
+        stream_name=f'SafetyVision-VS-{instance.serial_number}'
 
         client = boto3.client(
             'kinesisvideo',
             config=Config(region_name=region),
         )
+
         try:
             stream = client.describe_stream(
                 StreamName=stream_name
@@ -28,17 +32,9 @@ class CreateDeviceSerializer(serializers.ModelSerializer):
             )
             streamArn = stream['StreamARN']
 
-        device = Device(
-            **validated_data,
-            stream_arn=streamArn
-        )
-        device.save()
+        instance.description = validated_data['description']
+        instance.location = validated_data['location']
+        instance.stream_arn = streamArn
+        instance.save()
 
-        return device
-
-class DeviceSerializer(serializers.ModelSerializer):
-    stream_url = serializers.CharField(source='getStreamUrl', max_length=1000)
-
-    class Meta:
-        model = Device
-        fields = ['id', 'serial_number', 'location','stream_url']
+        return instance
