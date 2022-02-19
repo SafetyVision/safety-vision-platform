@@ -1,5 +1,6 @@
 from rest_framework.generics import RetrieveUpdateDestroyAPIView, ListCreateAPIView
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.serializers import ValidationError
 from . import serializers
 from .models import Location
 from devices.models import Device
@@ -43,8 +44,8 @@ class RetrieveUpdateDeleteLocationAPIView(RetrieveUpdateDestroyAPIView):
                     StreamARN=device.stream_arn
                 )
             except:
-                pass
-            finally:
+                raise ValidationError(f'Failed to delete stream for device {device.serial_number}')
+            else:
                 device.description = ''
                 device.save()
 
