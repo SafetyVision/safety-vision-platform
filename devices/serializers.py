@@ -5,7 +5,11 @@ from botocore.config import Config
 
 
 class DeviceSerializer(serializers.ModelSerializer):
-    stream_url = serializers.CharField(source='getStreamUrl', max_length=1000)
+    stream_url = serializers.CharField(
+        source='getStreamUrl',
+        max_length=1000,
+        read_only=True
+    )
 
     class Meta:
         model = Device
