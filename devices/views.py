@@ -1,29 +1,20 @@
-from rest_framework.generics import RetrieveUpdateDestroyAPIView, CreateAPIView, ListAPIView
+from rest_framework.generics import RetrieveUpdateDestroyAPIView
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.serializers import ValidationError
 from . import serializers
 from .models import Device
 import boto3
 from botocore.config import Config
 
-class CreateDeviceAPIView(CreateAPIView):
-    serializer_class = serializers.CreateDeviceSerializer
+class RetrieveUpdateDeleteDeviceAPIView(RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticated]
-    queryset = Device.objects.all()
-
-class ListDeviceAPIView(ListAPIView):
+    lookup_field = 'serial_number'
     serializer_class = serializers.DeviceSerializer
-    permission_classes = [IsAuthenticated]
-    queryset = Device.objects.all()
-
-class GetUpdateDeleteDeviceAPIView(RetrieveUpdateDestroyAPIView):
-    serializer_class = serializers.DeviceSerializer
-    permission_classes = [IsAuthenticated]
     queryset = Device.objects.all()
 
     def perform_destroy(self, instance):
-        region = 'us-east-1'
-
         try:
+            region = 'us-east-1'
             client = boto3.client(
                 'kinesisvideo',
                 config=Config(region_name=region),
@@ -33,6 +24,9 @@ class GetUpdateDeleteDeviceAPIView(RetrieveUpdateDestroyAPIView):
                 StreamARN=instance.stream_arn
             )
         except:
-            raise serializers.ValidationError("Failed to delete device stream")
-
-        instance.delete()
+            raise ValidationError("Failed to delete device stream")
+        else:
+            instance.description = ''
+            instance.location = None
+            instance.stream_arn = ''
+            instance.save()

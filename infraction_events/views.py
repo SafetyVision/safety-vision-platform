@@ -10,7 +10,7 @@ class ListCreateInfractionEventsAPIView(ListAPIView):
 
   def get_queryset(self):
     account = self.request.user.account
-    return InfractionEvent.objects.filter(account=account)
+    return InfractionEvent.objects.filter(infraction_type__device__location__account=account)
 
 class GetDeleteInfractionEventsAPIView(RetrieveDestroyAPIView):
   serializer_class = serializers.InfractionEventSerializer
@@ -18,7 +18,7 @@ class GetDeleteInfractionEventsAPIView(RetrieveDestroyAPIView):
 
   def get_queryset(self):
     account = self.request.user.account
-    return InfractionEvent.objects.filter(account=account)
+    return InfractionEvent.objects.filter(infraction_type__device__location__account=account)
 
 class PostInfractionEventsAPIView(CreateAPIView):
   serializer_class = serializers.InfractionEventCreateSerializer

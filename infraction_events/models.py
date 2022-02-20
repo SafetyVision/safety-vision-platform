@@ -1,11 +1,12 @@
 from django.db import models
 from video_clips.models import VideoClip
-from accounts.models import Account
+from infraction_types.models import InfractionType
 
 class InfractionEvent(models.Model):
-  account = models.ForeignKey(
-    Account,
+  infraction_type = models.ForeignKey(
+    InfractionType,
     on_delete=models.CASCADE,
+    null=True,
   )
   infraction_date_time = models.DateTimeField()
   infraction_video = models.OneToOneField(
