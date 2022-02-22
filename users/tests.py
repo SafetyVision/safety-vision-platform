@@ -6,7 +6,7 @@ from accounts.models import Account
 
 class UserTestCase(APITestCase):
   def setUp(self):
-    account = Account.objects.create(login_identifier='safetyvision', account_name='SafetyVision')
+    account = Account.objects.create(account_name='SafetyVision')
     user_data = {
       'first_name': 'Safety',
       'last_name': 'Supervisor',
