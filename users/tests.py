@@ -20,6 +20,8 @@ class UserTestCase(APITestCase):
       email=user_data['email'],
       username=user_data['email'],
     )
+    account.owner = user
+    account.save()
     user.set_password(user_data['password'])
     user.save()
     self.client.login(
