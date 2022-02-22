@@ -11,10 +11,7 @@ class UserPermissions(permissions.BasePermission):
         if request.method in permissions.SAFE_METHODS:
             return True
 
-        if request.user.account.owner.id == request.user.id:
-            return True
-
-        if obj.id == request.user.id:
+        if obj.id == request.user.id or request.user.account.owner.id == request.user.id:
             if request.method == 'DELETE':
                 return False
             return True
