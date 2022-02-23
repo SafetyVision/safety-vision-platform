@@ -64,7 +64,7 @@ class InfractionEventCreateSerializer(ModelSerializer):
     send_event(
       f'account_{infraction_event.infraction_type.device.location.account.id}_events',
       'message',
-      {'text': f'New infraction event #{infraction_event.id} detected'}
+      {'infraction_event': infraction_event.id}
     )
 
     return infraction_event
