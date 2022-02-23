@@ -21,7 +21,6 @@ urlpatterns = [
     path('api/', include('authentication.urls')),
     path('api/users/', include('users.urls')),
     path('api/accounts/', include('accounts.urls')),
-    path('api/video_clips/', include('video_clips.urls')),
     path('api/infraction_events/', include('infraction_events.urls')),
     path('api/infraction_types/', include('infraction_types.urls')),
     path('api/locations/', include('locations.urls')),
