@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'infraction_events',
     'devices',
     'locations',
+    'channels',
+    'django_eventstream',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -52,6 +54,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'django_grip.GripMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -80,7 +83,9 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'config.wsgi.application'
+ASGI_APPLICATION = 'config.asgi.application'
 
+EVENTSTREAM_CHANNELMANAGER_CLASS = 'config.channel_manager.EventChannelManager'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
