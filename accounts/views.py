@@ -1,5 +1,6 @@
 from rest_framework.generics import RetrieveUpdateDestroyAPIView, CreateAPIView, ListAPIView
 from rest_framework.permissions import IsAuthenticated
+from users.permissions import IsAccountOwner
 from . import serializers
 from .models import Account
 
@@ -16,7 +17,7 @@ class ListAccountAPIView(ListAPIView):
 
 class GetUpdateDeleteAccountAPIView(RetrieveUpdateDestroyAPIView):
     serializer_class = serializers.GetUpdateDeleteAccountSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsAccountOwner]
 
     def get_queryset(self):
         return Account.objects.filter(id=self.request.user.account.id)

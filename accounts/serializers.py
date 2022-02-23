@@ -8,7 +8,7 @@ class CreateAccountSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Account
-        fields = ['account_name', 'login_identifier', 'users']
+        fields = ['account_name', 'users']
 
     def validate_users(self, users):
         if len(users) != 1:
@@ -22,17 +22,19 @@ class CreateAccountSerializer(serializers.ModelSerializer):
         user = ExtendedUser.objects.create(**user, account=account, username=user['email'])
         user.set_password(password)
         user.save()
+        account.owner = user
+        account.save()
 
         return account
 
 class GetUpdateDeleteAccountSerializer(serializers.ModelSerializer):
     class Meta:
         model = Account
-        fields = ['id', 'account_name', 'login_identifier']
+        fields = ['id', 'account_name']
 
 class ListAccountSerializer(serializers.ModelSerializer):
     users = UserSerializer(many=True)
 
     class Meta:
         model = Account
-        fields = ['id', 'account_name', 'login_identifier', 'users']
+        fields = ['id', 'account_name', 'users']

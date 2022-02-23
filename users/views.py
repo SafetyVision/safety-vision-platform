@@ -2,10 +2,11 @@ from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIV
 from . import serializers
 from rest_framework.permissions import IsAuthenticated
 from .models import ExtendedUser
+from .permissions import UserPermissions, IsAccountOwner
 
 class ListCreateUsersAPIView(ListCreateAPIView):
     serializer_class = serializers.UserSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsAccountOwner]
 
     def get_queryset(self):
         account = self.request.user.account
@@ -13,7 +14,7 @@ class ListCreateUsersAPIView(ListCreateAPIView):
 
 class RetrieveUpdateDestroyUsersAPIView(RetrieveUpdateDestroyAPIView):
     serializer_class = serializers.UserSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, UserPermissions]
 
     def get_queryset(self):
         account = self.request.user.account
