@@ -1,4 +1,4 @@
-from rest_framework.serializers import ModelSerializer, ValidationError
+from rest_framework.serializers import ModelSerializer, ValidationError, BooleanField
 from django.contrib.auth.password_validation import validate_password as django_validate_password
 from django.core.exceptions import ValidationError as DjangoValidationError
 from .models import ExtendedUser
@@ -53,6 +53,6 @@ class UserSerializer(ModelSerializer):
         return instance
 
 class UserMeSerializer(ModelSerializer):
-        class Meta:
-            model = ExtendedUser
-            fields = ('id', 'first_name', 'last_name', 'email', 'account')
+    class Meta:
+        model = ExtendedUser
+        fields = ('id', 'first_name', 'last_name', 'email', 'account', 'isOwner')
