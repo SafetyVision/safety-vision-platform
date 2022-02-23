@@ -1,4 +1,4 @@
-from rest_framework.serializers import ModelSerializer, ValidationError, BooleanField
+from rest_framework.serializers import ModelSerializer, ValidationError
 from django.contrib.auth.password_validation import validate_password as django_validate_password
 from django.core.exceptions import ValidationError as DjangoValidationError
 from .models import ExtendedUser
