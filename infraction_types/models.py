@@ -1,5 +1,4 @@
 from django.db import models
-from devices.models import Device
 from accounts.models import Account
 
 class InfractionType(models.Model):
@@ -7,7 +6,9 @@ class InfractionType(models.Model):
     account = models.ForeignKey(
         Account,
         on_delete=models.CASCADE,
-        related_name='infraction_types'
+        related_name='infraction_types',
+        null=True,
+        default=None,
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
