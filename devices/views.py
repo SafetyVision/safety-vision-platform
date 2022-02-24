@@ -26,6 +26,7 @@ class RetrieveUpdateDeleteDeviceAPIView(RetrieveUpdateDestroyAPIView):
         except:
             raise ValidationError("Failed to delete device stream")
         else:
+            instance.infraction_type_models.clear()
             instance.description = ''
             instance.location = None
             instance.stream_arn = ''
