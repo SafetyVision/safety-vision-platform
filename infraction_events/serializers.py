@@ -5,6 +5,7 @@ from .models import InfractionEvent
 from video_clips.serializers import VideoClipSerializer
 from video_clips.models import VideoClip
 from django.core.files.base import ContentFile
+from django_eventstream import send_event
 
 class InfractionEventSerializer(ModelSerializer):
   infraction_video = VideoClipSerializer(read_only=True)
@@ -54,8 +55,16 @@ class InfractionEventCreateSerializer(ModelSerializer):
     file_name = str(infraction_video.id) + '_' + str(validated_data['infraction_date_time']) + '.mp4'
     infraction_video.file.save(file_name, clip_file)
 
-    return InfractionEvent.objects.create(
+    infraction_event = InfractionEvent.objects.create(
       infraction_type=validated_data['infraction_type'],
       infraction_date_time=validated_data['infraction_date_time'],
       infraction_video=infraction_video,
     )
+
+    send_event(
+      f'account_{infraction_event.infraction_type.device.location.account.id}_events',
+      'message',
+      {'infraction_event': infraction_event.id}
+    )
+
+    return infraction_event
