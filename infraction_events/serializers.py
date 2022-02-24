@@ -23,10 +23,11 @@ class InfractionEventCreateSerializer(ModelSerializer):
     fields = ['infraction_date_time', 'prediction_model']
 
   def validate_prediction_model(self, prediction_model):
-    model = PredictionModel.objects.get(id=prediction_model)
-    if not model:
-      return ValidationError('Prediction model does not exist')
-    return model
+    try:
+      return PredictionModel.objects.get(id=prediction_model)
+    except:
+      raise ValidationError('Prediction model does not exist')
+
 
   def create(self, validated_data):
     model = validated_data['prediction_model']
