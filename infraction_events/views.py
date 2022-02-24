@@ -1,24 +1,24 @@
-from rest_framework.generics import ListAPIView, RetrieveDestroyAPIView, CreateAPIView
+from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView
 from . import serializers
 from rest_framework.permissions import IsAuthenticated
 from .models import InfractionEvent
 from .permissions import IsPredictionServiceRequest
 
-class ListCreateInfractionEventsAPIView(ListAPIView):
+class ListInfractionEventsAPIView(ListAPIView):
   serializer_class = serializers.InfractionEventSerializer
   permission_classes = [IsAuthenticated]
 
   def get_queryset(self):
     account = self.request.user.account
-    return InfractionEvent.objects.filter(infraction_type__device__location__account=account)
+    return InfractionEvent.objects.filter(location__account=account)
 
-class GetDeleteInfractionEventsAPIView(RetrieveDestroyAPIView):
+class GetInfractionEventsAPIView(RetrieveAPIView):
   serializer_class = serializers.InfractionEventSerializer
   permission_classes = [IsAuthenticated]
 
   def get_queryset(self):
     account = self.request.user.account
-    return InfractionEvent.objects.filter(infraction_type__device__location__account=account)
+    return InfractionEvent.objects.filter(location__account=account)
 
 class PostInfractionEventsAPIView(CreateAPIView):
   serializer_class = serializers.InfractionEventCreateSerializer
