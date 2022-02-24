@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'infraction_events',
     'devices',
     'locations',
+    'prediction_models',
     'channels',
     'django_eventstream',
     'django.contrib.admin',
