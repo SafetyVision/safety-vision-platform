@@ -8,3 +8,6 @@ class PredictionModel(models.Model):
     is_predicting = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f'Detecting {self.infraction_type.infraction_type_name} on device #{self.device.serial_number}'
