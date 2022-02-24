@@ -38,6 +38,7 @@ class RetrieveUpdateDeleteLocationAPIView(RetrieveUpdateDestroyAPIView):
             except:
                 raise ValidationError(f'Failed to delete stream for device {device.serial_number}')
             else:
+                device.infraction_type_models.clear()
                 device.description = ''
                 device.stream_arn = ''
                 device.save()

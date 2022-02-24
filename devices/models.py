@@ -2,6 +2,7 @@ from django.db import models
 import boto3
 from botocore.config import Config
 from locations.models import Location
+from infraction_types.models import InfractionType
 
 class Device(models.Model):
     serial_number = models.CharField(max_length=1000, unique=True, default='')
@@ -10,6 +11,10 @@ class Device(models.Model):
         on_delete=models.SET_NULL,
         null=True,
         related_name='devices',
+    )
+    infraction_type_models = models.ManyToManyField(
+        InfractionType,
+        through='prediction_models.PredictionModel',
     )
     description = models.CharField(max_length=255, default='')
     stream_arn = models.CharField(max_length=1000, default='')
