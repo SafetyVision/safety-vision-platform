@@ -53,6 +53,6 @@ class UserSerializer(ModelSerializer):
         return instance
 
 class UserMeSerializer(ModelSerializer):
-        class Meta:
-            model = ExtendedUser
-            fields = ('id', 'first_name', 'last_name', 'email', 'account')
+    class Meta:
+        model = ExtendedUser
+        fields = ('id', 'first_name', 'last_name', 'email', 'account', 'isOwner')

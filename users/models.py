@@ -11,3 +11,6 @@ class ExtendedUser(AbstractUser):
         null=True
     )
     email = models.EmailField(unique=True)
+
+    def isOwner(self):
+        return self.id == self.account.owner.id
