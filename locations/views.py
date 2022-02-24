@@ -27,15 +27,14 @@ class RetrieveUpdateDeleteLocationAPIView(RetrieveUpdateDestroyAPIView):
         region = 'us-east-1'
         for device in devices:
             try:
-                # client = boto3.client(
-                #     'kinesisvideo',
-                #     config=Config(region_name=region),
-                # )
+                client = boto3.client(
+                    'kinesisvideo',
+                    config=Config(region_name=region),
+                )
 
-                # client.delete_stream(
-                #     StreamARN=device.stream_arn
-                # )
-                pass
+                client.delete_stream(
+                    StreamARN=device.stream_arn
+                )
             except:
                 raise ValidationError(f'Failed to delete stream for device {device.serial_number}')
             else:
