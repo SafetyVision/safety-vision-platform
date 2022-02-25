@@ -3,7 +3,8 @@ from .views import (
     RetrieveUpdateDeleteDeviceAPIView,
     ListCreatePredictionModelAPIView,
     RetrieveDeletePredictionModelAPIView,
-    StartCommitFirstInfraction
+    StartCommitFirstInfraction,
+    DoneCommitFirstInfraction
 )
 
 urlpatterns = [
@@ -16,5 +17,9 @@ urlpatterns = [
     path(
         '<str:serial_number>/infraction_types/<int:infraction_type>/start_commit_1',
         StartCommitFirstInfraction.as_view()
+    ),
+    path(
+        '<str:serial_number>/infraction_types/<int:infraction_type>/done_commit_1',
+        DoneCommitFirstInfraction.as_view()
     ),
 ]
