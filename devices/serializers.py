@@ -3,6 +3,19 @@ from .models import Device
 import boto3
 from botocore.config import Config
 
+class DeviceRelatedField(serializers.RelatedField):
+    def display_value(self, instance):
+        return instance.description
+
+    def to_representation(self, instance):
+        return instance.serial_number
+
+    def to_internal_value(self, data):
+        return Device.objects.get(serial_number=data)
+
+    def get_queryset(self):
+        return Device.objects.all()
+
 
 class DeviceSerializer(serializers.ModelSerializer):
     stream_url = serializers.CharField(
@@ -13,8 +26,9 @@ class DeviceSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Device
-        fields = ['id', 'serial_number', 'location', 'description', 'stream_url']
-        read_only_fields = ['id', 'serial_number', 'stream_url']
+        fields = ['serial_number', 'location', 'description', 'stream_url']
+        read_only_fields = ['serial_number', 'stream_url']
+        lookup_field = 'serial_number'
 
     def update(self, instance, validated_data):
         region = 'us-east-1'
