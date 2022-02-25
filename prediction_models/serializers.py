@@ -12,7 +12,7 @@ class PredictionModelSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         try:
-            device = data.get('serial_number')
+            device = data.get('device')
             infraction_type = data.get('infraction_type')
 
             account = self.context['request'].user.account
@@ -26,6 +26,3 @@ class PredictionModelSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('Invalid combination of device and infraction type')
 
         return super(PredictionModelSerializer, self).validate(data)
-
-    def create(self, validated_data):
-        return PredictionModel.objects.create(**validated_data)
