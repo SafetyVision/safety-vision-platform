@@ -25,4 +25,5 @@ urlpatterns = [
     path('api/infraction_types/', include('infraction_types.urls')),
     path('api/locations/', include('locations.urls')),
     path('api/devices/', include('devices.urls')),
+    path('api/prediction_models/', include('prediction_models.urls')),
 ]
