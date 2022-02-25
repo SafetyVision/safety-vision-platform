@@ -1,8 +1,8 @@
 from django.urls import path
-from .views import ListCreateInfractionEventsAPIView, GetDeleteInfractionEventsAPIView, PostInfractionEventsAPIView
+from .views import ListInfractionEventsAPIView, GetInfractionEventsAPIView, PostInfractionEventsAPIView
 
 urlpatterns = [
-    path('', ListCreateInfractionEventsAPIView.as_view()),
-    path('<int:pk>', GetDeleteInfractionEventsAPIView.as_view()),
+    path('', ListInfractionEventsAPIView.as_view()),
+    path('<int:pk>', GetInfractionEventsAPIView.as_view()),
     path('create', PostInfractionEventsAPIView.as_view()),
 ]
