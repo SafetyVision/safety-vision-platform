@@ -1,7 +1,9 @@
 from django.http import Http404
 from rest_framework.generics import RetrieveUpdateDestroyAPIView, ListCreateAPIView, RetrieveDestroyAPIView
+from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.serializers import ValidationError
+from rest_framework.response import Response
 from . import serializers
 from prediction_models.serializers import PredictionModelSerializer
 from .models import Device
@@ -70,3 +72,24 @@ class RetrieveDeletePredictionModelAPIView(RetrieveDestroyAPIView):
             return PredictionModel.objects.get(device=device, infraction_type=infraction_type)
         except:
             raise Http404('Could not get prediction model')
+
+class StartCommitFirstInfraction(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, serial_number, infraction_type):
+            account = request.user.account
+
+            devices = Device.objects.filter(location__account=account)
+            device = devices.get(serial_number=serial_number)
+
+            infraction_types = InfractionType.objects.filter(account=account)
+            infraction_type = infraction_types.get(id=infraction_type)
+
+            prediction_model = PredictionModel.objects.get(device=device, infraction_type=infraction_type)
+
+            # Request goes here to permission service to start capturing
+
+            prediction_model.training_state = PredictionModel.TrainingState.FIRST_COMMITTING_INFRACTION
+            prediction_model.save()
+
+            return Response({"success": True})
