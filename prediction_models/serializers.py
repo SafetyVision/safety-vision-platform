@@ -7,7 +7,8 @@ class PredictionModelSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PredictionModel
-        fields = ['infraction_type', 'device']
+        fields = ['infraction_type', 'device', 'is_predicting', 'training_state']
+        read_only_fields = ['is_predicting', 'training_state']
 
     def validate(self, data):
         try:

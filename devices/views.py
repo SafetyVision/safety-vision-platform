@@ -109,7 +109,7 @@ class DoneCommitInfraction(APIView):
     def post(self, request, serial_number, infraction_type):
         try:
             device = Device.objects.get(serial_number=serial_number)
-            infraction_type = InfractionType.objects.get(infraction_type)
+            infraction_type = InfractionType.objects.get(id=infraction_type)
             model = PredictionModel.objects.get(device=device, infraction_type=infraction_type)
 
             isFirstPhase = model.training_state == PredictionModel.TrainingState.FIRST_COMMITTING_INFRACTION
@@ -167,7 +167,7 @@ class DoneNotCommitInfraction(APIView):
     def post(self, request, serial_number, infraction_type):
         try:
             device = Device.objects.get(serial_number=serial_number)
-            infraction_type = InfractionType.objects.get(infraction_type)
+            infraction_type = InfractionType.objects.get(id=infraction_type)
             model = PredictionModel.objects.get(device=device, infraction_type=infraction_type)
 
             isFirstPhase = model.training_state == PredictionModel.TrainingState.FIRST_NOT_COMMITTING_INFRACTION
@@ -198,7 +198,7 @@ class TrainingComplete(APIView):
     def post(self, request, serial_number, infraction_type):
         try:
             device = Device.objects.get(serial_number=serial_number)
-            infraction_type = InfractionType.objects.get(infraction_type)
+            infraction_type = InfractionType.objects.get(id=infraction_type)
             model = PredictionModel.objects.get(device=device, infraction_type=infraction_type)
 
             if model.training_state != PredictionModel.TrainingState.SECOND_DONE_NOT_COMMITTING_INFRACTION:
@@ -224,7 +224,7 @@ class NeedsRetraining(APIView):
     def post(self, request, serial_number, infraction_type):
         try:
             device = Device.objects.get(serial_number=serial_number)
-            infraction_type = InfractionType.objects.get(infraction_type)
+            infraction_type = InfractionType.objects.get(id=infraction_type)
             model = PredictionModel.objects.get(device=device, infraction_type=infraction_type)
 
             if model.training_state != PredictionModel.TrainingState.SECOND_DONE_NOT_COMMITTING_INFRACTION:
@@ -244,13 +244,15 @@ class NeedsRetraining(APIView):
             raise Http404('Training error')
 
 class StartPredicting(APIView):
-    permission_classes = [IsPredictionServiceRequest]
-    authentication_classes = []
+    permission_classes = [IsAuthenticated]
 
     def post(self, request, serial_number, infraction_type):
         try:
-            device = Device.objects.get(serial_number=serial_number)
-            infraction_type = InfractionType.objects.get(infraction_type)
+            account = request.user.account
+            devices = Device.objects.filter(location__account=account)
+            device = devices.get(serial_number=serial_number)
+            infraction_types = InfractionType.objects.filter(account=account)
+            infraction_type = infraction_types.get(id=infraction_type)
             model = PredictionModel.objects.get(device=device, infraction_type=infraction_type)
 
             if model.training_state != PredictionModel.TrainingState.TRAINED:
@@ -267,13 +269,15 @@ class StartPredicting(APIView):
             raise Http404('Training error')
 
 class PausePredicting(APIView):
-    permission_classes = [IsPredictionServiceRequest]
-    authentication_classes = []
+    permission_classes = [IsAuthenticated]
 
     def post(self, request, serial_number, infraction_type):
         try:
-            device = Device.objects.get(serial_number=serial_number)
-            infraction_type = InfractionType.objects.get(infraction_type)
+            account = request.user.account
+            devices = Device.objects.filter(location__account=account)
+            device = devices.get(serial_number=serial_number)
+            infraction_types = InfractionType.objects.filter(account=account)
+            infraction_type = infraction_types.get(id=infraction_type)
             model = PredictionModel.objects.get(device=device, infraction_type=infraction_type)
 
             if model.training_state != PredictionModel.TrainingState.TRAINED:
