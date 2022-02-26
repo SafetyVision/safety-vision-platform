@@ -1,4 +1,3 @@
-from random import choice
 from django.db import models
 from devices.models import Device
 from infraction_types.models import InfractionType
