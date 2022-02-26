@@ -8,9 +8,13 @@ from prediction_models.models import PredictionModel
 from django.core.files.base import ContentFile
 from django_eventstream import send_event
 from devices.serializers import DeviceRelatedField
+from locations.serializers import LocationRelatedField
+from infraction_types.serializers import InfractionTypeRelatedField
 
 class InfractionEventSerializer(ModelSerializer):
   infraction_video = VideoClipSerializer(read_only=True)
+  location = LocationRelatedField()
+  infraction_type = InfractionTypeRelatedField()
 
   class Meta:
     model = InfractionEvent
