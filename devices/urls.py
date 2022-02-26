@@ -15,11 +15,11 @@ urlpatterns = [
         RetrieveDeletePredictionModelAPIView.as_view()
     ),
     path(
-        '<str:serial_number>/infraction_types/<int:infraction_type>/start_commit_1',
+        '<str:serial_number>/infraction_types/<int:infraction_type>/start_commit',
         StartCommitFirstInfraction.as_view()
     ),
     path(
-        '<str:serial_number>/infraction_types/<int:infraction_type>/done_commit_1',
+        '<str:serial_number>/infraction_types/<int:infraction_type>/done_commit',
         DoneCommitFirstInfraction.as_view()
     ),
 ]
