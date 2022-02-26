@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 from django.db.models.signals import pre_delete
-from .receivers import deleteInfractionEventVideoClip
+from .receivers import delete_infraction_event_video_clip
 
 
 class InfractionEventsConfig(AppConfig):
@@ -8,4 +8,4 @@ class InfractionEventsConfig(AppConfig):
     name = 'infraction_events'
 
     def ready(self):
-        pre_delete.connect(deleteInfractionEventVideoClip, sender='infraction_events.InfractionEvent')
+        pre_delete.connect(delete_infraction_event_video_clip, sender='infraction_events.InfractionEvent')
