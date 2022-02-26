@@ -28,10 +28,12 @@ class CreateAccountSerializer(serializers.ModelSerializer):
         return account
 
 class GetUpdateDeleteAccountSerializer(serializers.ModelSerializer):
-    owner = UserSerializer()
+    owner = UserSerializer(read_only=True)
+
     class Meta:
         model = Account
         fields = ['id', 'account_name', 'owner']
+        read_only_fields = ['owner']
 
 class ListAccountSerializer(serializers.ModelSerializer):
     users = UserSerializer(many=True)
