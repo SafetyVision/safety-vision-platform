@@ -15,13 +15,17 @@ class PredictionModelSerializer(serializers.ModelSerializer):
             device = data.get('device')
             infraction_type = data.get('infraction_type')
 
-            account = self.context['request'].user.account
+            request = self.context['request']
+            account = request.user.account
             if device.location.account != account or infraction_type.account != account:
                 raise serializers.ValidationError()
 
-            models = PredictionModel.objects.filter(device=device, infraction_type=infraction_type)
-            if models:
-                raise serializers.ValidationError()
+            if request.method == 'POST':
+                models = PredictionModel.objects.filter(device=device, infraction_type=infraction_type)
+                if models:
+                    raise serializers.ValidationError()
+            else:
+                PredictionModel.objects.get(device=device, infraction_type=infraction_type)
         except:
             raise serializers.ValidationError('Invalid combination of device and infraction type')
 
