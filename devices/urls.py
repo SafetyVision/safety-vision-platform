@@ -3,8 +3,14 @@ from .views import (
     RetrieveUpdateDeleteDeviceAPIView,
     ListCreatePredictionModelAPIView,
     RetrieveDeletePredictionModelAPIView,
-    StartCommitFirstInfraction,
-    DoneCommitFirstInfraction
+    StartCommitInfraction,
+    DoneCommitInfraction,
+    StartNotCommitInfraction,
+    DoneNotCommitInfraction,
+    TrainingComplete,
+    NeedsRetraining,
+    StartPredicting,
+    PausePredicting
 )
 
 urlpatterns = [
@@ -16,10 +22,34 @@ urlpatterns = [
     ),
     path(
         '<str:serial_number>/infraction_types/<int:infraction_type>/start_commit',
-        StartCommitFirstInfraction.as_view()
+        StartCommitInfraction.as_view()
     ),
     path(
         '<str:serial_number>/infraction_types/<int:infraction_type>/done_commit',
-        DoneCommitFirstInfraction.as_view()
+        DoneCommitInfraction.as_view()
+    ),
+    path(
+        '<str:serial_number>/infraction_types/<int:infraction_type>/start_not_commit',
+        StartNotCommitInfraction.as_view(),
+    ),
+    path(
+        '<str:serial_number>/infraction_types/<int:infraction_type>/done_not_commit',
+        DoneNotCommitInfraction.as_view(),
+    ),
+    path(
+        '<str:serial_number>/infraction_types/<int:infraction_type>/training_complete',
+        TrainingComplete.as_view(),
+    ),
+    path(
+        '<str:serial_number>/infraction_types/<int:infraction_type>/needs_retraining',
+        NeedsRetraining.as_view(),
+    ),
+    path(
+        '<str:serial_number>/infraction_types/<int:infraction_type>/start_predict',
+        StartPredicting.as_view(),
+    ),
+    path(
+        '<str:serial_number>/infraction_types/<int:infraction_type>/stop_predict',
+        PausePredicting.as_view(),
     ),
 ]
