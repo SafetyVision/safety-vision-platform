@@ -1,16 +1,6 @@
 from rest_framework import serializers
 from .models import InfractionType
 
-class InfractionTypeRelatedField(serializers.RelatedField):
-    def to_representation(self, instance):
-        return instance.infraction_type_name
-
-    def to_internal_value(self, data):
-        return InfractionType.objects.get(id=data)
-
-    def get_queryset(self):
-        return InfractionType.objects.all()
-
 class InfractionTypesSerializer(serializers.ModelSerializer):
     class Meta:
         model = InfractionType
