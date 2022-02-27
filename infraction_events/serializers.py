@@ -1,12 +1,13 @@
 import boto3
 from datetime import timedelta
-from rest_framework.serializers import ModelSerializer, IntegerField, ValidationError
+from rest_framework.serializers import ModelSerializer, ValidationError
 from .models import InfractionEvent
 from video_clips.serializers import VideoClipSerializer
 from video_clips.models import VideoClip
 from prediction_models.models import PredictionModel
 from django.core.files.base import ContentFile
 from django_eventstream import send_event
+from devices.serializers import DeviceRelatedField
 
 class InfractionEventSerializer(ModelSerializer):
   infraction_video = VideoClipSerializer(read_only=True)
@@ -16,21 +17,29 @@ class InfractionEventSerializer(ModelSerializer):
     fields = ['id', 'infraction_type', 'infraction_video', 'location', 'infraction_date_time']
 
 class InfractionEventCreateSerializer(ModelSerializer):
-  prediction_model = IntegerField(write_only=True)
+  device = DeviceRelatedField(write_only=True)
 
   class Meta:
     model = InfractionEvent
-    fields = ['infraction_date_time', 'prediction_model']
+    fields = ['infraction_date_time', 'infraction_type', 'device', 'location']
+    read_only_fields = ['location']
 
-  def validate_prediction_model(self, prediction_model):
+  def validate(self, data):
     try:
-      return PredictionModel.objects.get(id=prediction_model)
+      PredictionModel.objects.get(
+        device=data['device'],
+        infraction_type=data['infraction_type']
+      )
+      return super(InfractionEventCreateSerializer, self).validate(data)
     except:
-      raise ValidationError('Prediction model does not exist')
+      raise ValidationError()
 
 
   def create(self, validated_data):
-    model = validated_data['prediction_model']
+    model = PredictionModel.objects.get(
+      device=validated_data['device'],
+      infraction_type=validated_data['infraction_type']
+    )
     stream_name = f'SafetyVision-VS-{model.device.serial_number}'
 
     try:
