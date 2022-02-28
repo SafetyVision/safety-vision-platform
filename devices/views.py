@@ -126,7 +126,7 @@ class DoneCommitInfraction(APIView):
             send_event(
                 f'{device.serial_number}_{infraction_type.id}_training_events',
                 'message',
-                {'update': isFirstPhase if 'commit_1_done' else 'commit_2_done'}
+                {'update': 'commit_1_done' if isFirstPhase else 'commit_2_done'}
             )
 
             return Response({"success": True})
@@ -184,7 +184,7 @@ class DoneNotCommitInfraction(APIView):
             send_event(
                 f'{device.serial_number}_{infraction_type.id}_training_events',
                 'message',
-                {'update': isFirstPhase if 'not_commit_1_done' else 'not_commit_2_done'}
+                {'update': 'not_commit_1_done' if isFirstPhase else 'not_commit_2_done'}
             )
 
             return Response({"success": True})
