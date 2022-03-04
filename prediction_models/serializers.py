@@ -32,10 +32,10 @@ class PredictionModelSerializer(serializers.ModelSerializer):
 
             training_time = (between_captures / 1000) * number_captures
 
-            if training_time > 600:
+            if training_time > 600 or training_time <= 0:
                 raise serializers.ValidationError()
 
-            if stream_delay > 20:
+            if stream_delay > 30 or stream_delay < 0:
                 raise serializers.ValidationError()
 
             request = self.context['request']
@@ -50,7 +50,7 @@ class PredictionModelSerializer(serializers.ModelSerializer):
             else:
                 PredictionModel.objects.get(device=device, infraction_type=infraction_type)
         except:
-            raise serializers.ValidationError('Invalid combination of device and infraction type')
+            raise serializers.ValidationError('Invalid combination of device and infraction type or training config values')
 
         return super(PredictionModelSerializer, self).validate(data)
 
