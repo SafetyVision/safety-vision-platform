@@ -212,6 +212,7 @@ class TrainingComplete(APIView):
                 raise Exception()
 
             model.training_state = PredictionModel.TrainingState.TRAINED
+            model.is_predicting = True
             model.save()
 
             send_event(
