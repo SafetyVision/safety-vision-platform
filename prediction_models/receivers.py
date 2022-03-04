@@ -1,3 +1,9 @@
+from .prediction_service_client import PredictionServiceClient
+
 def notify_prediction_service_model_deleted(sender, instance, using, **kwargs):
-    # Code for telling prediction service a prediction model was deleted
-    pass
+    client = PredictionServiceClient(
+        device=instance.device,
+        infraction_type=instance.infraction_type
+    )
+
+    client.stop_predicting()

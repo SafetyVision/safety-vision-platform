@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import PredictionModel
 from devices.serializers import DeviceRelatedField
+from .prediction_service_client import PredictionServiceClient
 
 class PredictionModelSerializer(serializers.ModelSerializer):
     device = DeviceRelatedField()
@@ -30,3 +31,9 @@ class PredictionModelSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('Invalid combination of device and infraction type')
 
         return super(PredictionModelSerializer, self).validate(data)
+
+    def create(self, validated_data):
+        device = validated_data.get('device')
+        infraction_type = validated_data.get('infraction_type')
+        client = PredictionServiceClient(device=device, infraction_type=infraction_type)
+        client.train_new()

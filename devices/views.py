@@ -6,6 +6,7 @@ from rest_framework.serializers import ValidationError
 from rest_framework.response import Response
 from . import serializers
 from prediction_models.serializers import PredictionModelSerializer
+from prediction_models.prediction_service_client import PredictionServiceClient
 from .models import Device
 from prediction_models.models import PredictionModel
 from infraction_types.models import InfractionType
@@ -95,7 +96,10 @@ class StartCommitInfraction(APIView):
             else:
                 raise Exception()
 
-            # Request goes here to prediction service to start capturing
+            client = PredictionServiceClient(device=device, infraction_type=infraction_type)
+            success = client.start_positive()
+            if not success:
+                raise Exception()
 
             prediction_model.save()
             return Response({"success": True})
@@ -153,7 +157,10 @@ class StartNotCommitInfraction(APIView):
             else:
                 raise Exception()
 
-            # Request goes here to prediction service to start capturing
+            client = PredictionServiceClient(device=device, infraction_type=infraction_type)
+            success = client.start_negative()
+            if not success:
+                raise Exception()
 
             prediction_model.save()
             return Response({"success": True})
@@ -262,7 +269,10 @@ class StartPredicting(APIView):
                 model.is_predicting = True
                 model.save()
 
-            # Send a request for the prediction service to start predicting
+            client = PredictionServiceClient(device=device, infraction_type=infraction_type)
+            success = client.restart_predicting()
+            if not success:
+                raise Exception()
 
             return Response({"success": True})
         except:
@@ -287,7 +297,10 @@ class PausePredicting(APIView):
                 model.is_predicting = False
                 model.save()
 
-            # Send a request for the prediction service to stop predicting
+            client = PredictionServiceClient(device=device, infraction_type=infraction_type)
+            success = client.stop_predicting()
+            if not success:
+                raise Exception()
 
             return Response({"success": True})
         except:
