@@ -19,7 +19,7 @@ class PredictionServiceClient:
     def train_new(self, number_captures, between_captures, stream_delay):
         body = self.body.copy()
         body['num_captures'] = number_captures
-        body['between_captures']= between_captures
+        body['between_captures'] = between_captures
         body['stream_delay'] = stream_delay
         try:
             requests.post(url=f'{self.url}/train_new', json=body)
