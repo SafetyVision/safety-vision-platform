@@ -25,7 +25,7 @@ class PredictionServiceClient:
             requests.post(url=f'{self.url}/train_new', json=body, timeout=0.01)
             return True
         except:
-            raise True
+            return True
 
     def start_positive(self):
         try:
