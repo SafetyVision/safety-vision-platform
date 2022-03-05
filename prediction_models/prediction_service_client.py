@@ -12,6 +12,7 @@ class PredictionServiceClient:
         self.body = {
             'device_serial_number': device.serial_number,
             'infraction_type_id': infraction_type.id,
+            'kvs_arn': self.kvs_stream_arn,
         }
         if DEBUG:
             requests.post = mock_post
