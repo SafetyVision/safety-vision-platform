@@ -22,10 +22,10 @@ class PredictionServiceClient:
         body['between_captures'] = between_captures / 1000 # Cameron wants this is seconds
         body['stream_delay'] = stream_delay
         try:
-            requests.post(url=f'{self.url}/train_new', json=body)
+            requests.post(url=f'{self.url}/train_new', json=body, timeout=0.01)
             return True
         except:
-            raise False
+            return True
 
     def start_positive(self):
         try:
