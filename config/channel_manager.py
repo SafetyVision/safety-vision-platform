@@ -20,6 +20,13 @@ class EventChannelManager(DefaultChannelManager):
             if prediction_model.infraction_type.account.id == user.account.id:
                 return True
         except:
-            return False
-            
+            pass
+
+        try:
+            parsed_channel = channel.split('_')
+            if len(parsed_channel) == 3 and parsed_channel[0] == 'device' and parsed_channel[2] == 'events':
+                return True
+        except:
+            pass
+
         return False

@@ -97,4 +97,10 @@ class InfractionEventCreateSerializer(ModelSerializer):
       {'infraction_event': infraction_event.id}
     )
 
+    send_event(
+      f'device_{model.device.serial_number}_events',
+      'message',
+      {'event': True}
+    )
+
     return infraction_event
