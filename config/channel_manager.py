@@ -24,7 +24,9 @@ class EventChannelManager(DefaultChannelManager):
 
         try:
             parsed_channel = channel.split('_')
-            if len(parsed_channel) == 3 and parsed_channel[0] == 'device' and parsed_channel[2] == 'events':
+            serial_number = parsed_channel[1]
+            device = Device.objects.get(serial_number=serial_number)
+            if device and parsed_channel[0] == 'device' and parsed_channel[2] == 'events':
                 return True
         except:
             pass
