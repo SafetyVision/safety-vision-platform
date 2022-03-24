@@ -36,7 +36,6 @@ class DeviceSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Cannot assign device to new location.")
         return location
 
-
     def update(self, instance, validated_data):
         region = 'us-east-1'
         stream_name=f'SafetyVision-VS-{instance.serial_number}'
