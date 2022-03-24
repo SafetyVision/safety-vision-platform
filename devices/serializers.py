@@ -30,6 +30,29 @@ class DeviceSerializer(serializers.ModelSerializer):
         read_only_fields = ['serial_number', 'stream_url']
         lookup_field = 'serial_number'
 
+    def validate(self, data):
+        request = self.context['request']
+        errors = None
+
+        if request.method == 'PUT' or request.method == 'PATCH':
+            client = boto3.client(
+                'kinesisvideo',
+                config=Config(region_name='us-east-1'),
+            )
+
+            try:
+                stream_name = f'SafetyVision-VS-{self.instance.serial_number}'
+                stream = client.describe_stream(StreamName=stream_name)
+                if stream['StreamInfo']['Status'] != 'ACTIVE':
+                    errors = {'serial_number': ["This device's stream is in an unstable state"]}
+            except:
+                pass
+
+        if errors:
+            raise serializers.ValidationError(errors)
+
+        return super(DeviceSerializer, self).validate(data)
+
     def validate_location(self, location):
         device = self.instance
         if device.location != None:
