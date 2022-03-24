@@ -30,6 +30,12 @@ class DeviceSerializer(serializers.ModelSerializer):
         read_only_fields = ['serial_number', 'stream_url']
         lookup_field = 'serial_number'
 
+    def validate_location(self, location):
+        device = self.instance
+        if device.location != None:
+            raise serializers.ValidationError("Cannot assign device to new location.")
+        return location
+
     def update(self, instance, validated_data):
         region = 'us-east-1'
         stream_name=f'SafetyVision-VS-{instance.serial_number}'
