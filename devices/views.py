@@ -96,7 +96,7 @@ class StartCommitInfraction(APIView):
             else:
                 raise Exception()
 
-            client = PredictionServiceClient(device=device, infraction_type=infraction_type)
+            client = PredictionServiceClient(prediction_model=prediction_model)
             success = client.start_positive()
             if not success:
                 raise Exception()
@@ -157,7 +157,7 @@ class StartNotCommitInfraction(APIView):
             else:
                 raise Exception()
 
-            client = PredictionServiceClient(device=device, infraction_type=infraction_type)
+            client = PredictionServiceClient(prediction_model=prediction_model)
             success = client.start_negative()
             if not success:
                 raise Exception()
@@ -270,7 +270,7 @@ class StartPredicting(APIView):
                 model.is_predicting = True
                 model.save()
 
-            client = PredictionServiceClient(device=device, infraction_type=infraction_type)
+            client = PredictionServiceClient(prediction_model=model)
             success = client.restart_predicting()
             if not success:
                 raise Exception()
@@ -298,7 +298,7 @@ class PausePredicting(APIView):
                 model.is_predicting = False
                 model.save()
 
-            client = PredictionServiceClient(device=device, infraction_type=infraction_type)
+            client = PredictionServiceClient(prediction_model=model)
             success = client.stop_predicting()
             if not success:
                 raise Exception()
