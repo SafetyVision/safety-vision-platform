@@ -6,22 +6,22 @@ def mock_post(*args, **kwargs):
     return {}
 
 class PredictionServiceClient:
-    def __init__(self, device, infraction_type):
+    def __init__(self, prediction_model):
         self.url = 'http://ec2-54-167-80-49.compute-1.amazonaws.com:5000'
-        self.kvs_stream_arn = device.stream_arn
+        self.kvs_stream_arn = prediction_model.device.stream_arn
         self.body = {
-            'device_serial_number': device.serial_number,
-            'infraction_type_id': infraction_type.id,
+            'device_serial_number': prediction_model.device.serial_number,
+            'infraction_type_id': prediction_model.infraction_type.id,
             'kvs_arn': self.kvs_stream_arn,
+            'stream_delay': prediction_model.stream_delay,
         }
         if DEBUG:
             requests.post = mock_post
 
-    def train_new(self, number_captures, between_captures, stream_delay):
+    def train_new(self, number_captures, between_captures):
         body = self.body.copy()
         body['num_captures'] = number_captures
         body['between_captures'] = between_captures / 1000 # Cameron wants this in seconds
-        body['stream_delay'] = stream_delay
         try:
             requests.post(url=f'{self.url}/train_new', json=body, timeout=0.01)
             return True

@@ -7,7 +7,6 @@ class PredictionModelSerializer(serializers.ModelSerializer):
     device = DeviceRelatedField()
     number_captures = serializers.IntegerField(write_only=True)
     between_captures = serializers.IntegerField(write_only=True)
-    stream_delay = serializers.IntegerField(write_only=True)
 
     class Meta:
         model = PredictionModel
@@ -55,17 +54,16 @@ class PredictionModelSerializer(serializers.ModelSerializer):
         return super(PredictionModelSerializer, self).validate(data)
 
     def create(self, validated_data):
-        device = validated_data.get('device')
-        infraction_type = validated_data.get('infraction_type')
         number_captures = validated_data.pop('number_captures')
         between_captures = validated_data.pop('between_captures')
-        stream_delay = validated_data.pop('stream_delay')
 
-        client = PredictionServiceClient(device=device, infraction_type=infraction_type)
+
+        model = PredictionModel.objects.create(**validated_data)
+
+        client = PredictionServiceClient(model)
         client.train_new(
             number_captures=number_captures,
             between_captures=between_captures,
-            stream_delay=stream_delay
         )
 
-        return PredictionModel.objects.create(**validated_data)
+        return model
