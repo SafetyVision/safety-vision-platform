@@ -43,8 +43,4 @@ class RetrieveUpdateDeleteLocationAPIView(RetrieveUpdateDestroyAPIView):
                 device.stream_arn = ''
                 device.save()
 
-                infraction_types = InfractionType.objects.filter(device=device)
-                for infraction_type in infraction_types:
-                    infraction_type.delete()
-
         instance.delete()
