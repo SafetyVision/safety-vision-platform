@@ -31,7 +31,7 @@ class PredictionModelSerializer(serializers.ModelSerializer):
 
             training_time = (between_captures / 1000) * number_captures
 
-            if training_time > 600 or training_time <= 0:
+            if training_time > 2500 or training_time <= 0:
                 raise serializers.ValidationError()
 
             if stream_delay > 30 or stream_delay < 0:
