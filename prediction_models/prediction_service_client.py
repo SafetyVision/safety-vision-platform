@@ -7,7 +7,7 @@ def mock_post(*args, **kwargs):
 
 class PredictionServiceClient:
     def __init__(self, prediction_model):
-        self.url = 'http://ec2-34-229-159-65.compute-1.amazonaws.com:5000'
+        self.url = 'http://ec2-50-17-108-138.compute-1.amazonaws.com:5000'
         self.kvs_stream_arn = prediction_model.device.stream_arn
         self.body = {
             'device_serial_number': prediction_model.device.serial_number,
